@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "adonis serve",
-    "test": "node ace test",
+    "test": "docker exec -it anthor_app_1 adonis test",
     "serve:dev": "adonis serve --dev && -x node --inspect=0.0.0.0:9229 server.js"
   },
   "keywords": [
