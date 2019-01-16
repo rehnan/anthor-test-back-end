@@ -11,13 +11,12 @@ before(async () => {
 test('should found a existent user searching for user credentials', async ({ assert }) => {
   const {username, password} = user;
   const foundUser = await User.getUserByCredentials({username, password});
-  assert.isTrue(foundUser);
-  assert.isTrue(user instanceof User);
+  assert.isNotNull(foundUser);
+  assert.isTrue(foundUser instanceof User);
 });
 
 test('should return null searching for user credentials to inexistent user', async ({ assert }) => {
-  const {username, password} = user;
-  const shoudBeNull = await User.getUserByCredentials({username, password});
+  const shoudBeNull = await User.getUserByCredentials({username: 'userNotExistent'});
   assert.isNull(shoudBeNull);
 });
 
