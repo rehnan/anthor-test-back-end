@@ -34,6 +34,38 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+
+  /**
+   * Find user by credentials and return user
+   * @returns {{user|null}} - Returns user
+   */
+  static async getUserByCredentials(credentials) {
+    throw new Error('Not implemented yet!');
+  }
+
+  /**
+   * Find user by token and return user
+   * @returns {{user|null}} - Returns user
+   */
+  static async getUserByToken(token) {
+    throw new Error('Not implemented yet!');
+  }
+
+  /**
+   * Authenticate user and returns token
+   * @returns {{user}} - Returns authenticated user with token attached
+   */
+  * authenticate() {
+    throw new Error('Not implemented yet!');
+  }
+
+  /**
+   * Check if user is authenticated
+   * @returns {{boolean}} - Returns true or false
+   */
+  * isAuthenticated() {
+    throw new Error('Not implemented yet!');
+  }
 }
 
-module.exports = User
+module.exports = User;
