@@ -4,40 +4,95 @@ const { before, after, test, trait } = use('Test/Suite')('Integration Tests > Us
 trait('Test/ApiClient')
 const User = use('App/Models/User');
 const apiVersion = '/v1';
-
+let fakeUsers = [];
 before(async () => {
-  // TODO -  Use Faker to create fake datas
-  const fakeUsers = [{username: 'user-2'}, {username: 'user-1'}, {username: 'user-3'}];
+  fakeUsers = [{email: 'user-2'}, {email: 'user-1'}, {email: 'user-3'}];
   const users = fakeUsers.map(u => {
-    u.password = Math.random().toString();
+    u.password ='password';
     return u;
   });
   await User.createMany(users);
 });
 
-test('get user by credential', async ({ client }) => {
-  const response = await client.get(`${apiVersion}/users`).end();
-  response.assertStatus(200)
-});
-
-test('get user by token', async ({ client }) => {
-  const response = await client.get(`${apiVersion}/users`).end();
+test('sign in valid user account', async ({ client, assert }) => {
+  const response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'password')
+    .end();
+  const {user, token} = response.body;
   response.assertStatus(200);
+  assert.equal(user.email, 'user-1');
+  assert.isNotNull(token);
 });
 
-test('sign in user account', async ({ client }) => {
-  const response = await client.get(`${apiVersion}/users`).end();
-  response.assertStatus(200)
+test('should validate authentication to invalid username account', async ({ client, assert }) => {
+  const response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'invalid-user')
+    .field('password', 'password')
+    .end();
+  response.assertStatus(401);
+  response.assertText('{"message":"Invalid credentails!"}')
+});
+
+test('should validate authentication to invalid password account', async ({ client, assert }) => {
+  const response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'invalid-password')
+    .end();
+  response.assertStatus(401);
+  response.assertText('{"message":"Invalid credentails!"}')
 });
 
 test('sign out user account', async ({ client }) => {
-  const response = await client.get(`${apiVersion}/users`).end();
-  response.assertStatus(200)
+  let response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'password')
+    .end();
+  const {token} = response.body;
+  response = await client.post(`${apiVersion}/auth/sign-out`)
+    .header('Authorization', `Bearer ${token}`)
+    .end();
+  response.assertStatus(200);
+  response.assertText('{"logout":true}');
 });
 
-test('check user authentication status', async ({ client }) => {
-  const response = await client.get(`${apiVersion}/users`).end();
-  response.assertStatus(200)
+test('check user authentication status and return true to authenticated user account', async ({ client }) => {
+  let response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'password')
+    .end();
+  const {token} = response.body;
+  response = await client.post(`${apiVersion}/auth/authenticated`)
+    .header('Authorization', `Bearer ${token}`)
+    .end();
+  response.assertStatus(200);
+  response.assertText('{"isLoggedIn":true}');
+});
+
+test('check user authentication status and return false to unauthenticated user account', async ({ client }) => {
+  let response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'password')
+    .end();
+  const {token} = response.body;
+  response = await client.post(`${apiVersion}/auth/authenticated`)
+    .header('Authorization', `Bearer ${token}`)
+    .end();
+  response.assertStatus(200);
+  response.assertText('{"isLoggedIn":true}');
+});
+
+test('get user profile by token', async ({ client, assert }) => {
+  let response = await client.post(`${apiVersion}/auth/sign-in`)
+    .field('email', 'user-1')
+    .field('password', 'password')
+    .end();
+  const {token} = response.body;
+  response = await client.post(`${apiVersion}/users`)
+    .header('Authorization', `Bearer ${token}`)
+    .end();
+  response.assertStatus(200);
+  assert.isNotNull(response.body.user);
 });
 
 after(async () => {

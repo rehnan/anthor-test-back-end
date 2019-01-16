@@ -21,11 +21,11 @@ Route.get('/', () => {
 });
 
 Route.group(() => {
-  Route.get('/', 'Api/v1/UserController.getUserBy');
+  Route.post('/', 'Api/v1/UserController.getUserBy');
 }).prefix('v1/users');
 
 Route.group(() => {
   Route.post('/sign-in', 'Api/v1/UserController.signIn');
   Route.post('/sign-out', 'Api/v1/UserController.signOut');
-  Route.get('/is-authenticated', 'Api/v1/UserController.isAuthenticated');
+  Route.post('/authenticated', 'Api/v1/UserController.isLoggedIn');
 }).prefix('v1/auth');
