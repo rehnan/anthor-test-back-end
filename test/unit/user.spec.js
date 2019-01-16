@@ -1,6 +1,6 @@
 'use strict'
 
-const { before, after, test } = use('Test/Suite')('User');
+const { before, after, test } = use('Test/Suite')('Unit Tests > User');
 const User = use('App/Models/User');
 let user = {username: 'test', password: 'password'};
 
