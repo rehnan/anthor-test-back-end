@@ -52,10 +52,18 @@ class User extends Model {
   }
 
   /**
-   * Authenticate user and returns token
+   * Sign in user account and returns token
    * @returns {{user}} - Returns authenticated user with token attached
    */
-  * authenticate() {
+  async signIn() {
+    throw new Error('Not implemented yet!');
+  }
+
+  /**
+   * Sign out user account and destroy token
+   * @returns {{user}} - Returns user without token
+   */
+  async signOut() {
     throw new Error('Not implemented yet!');
   }
 
