@@ -40,7 +40,8 @@ class User extends Model {
    * @returns {{user|null}} - Returns user
    */
   static async getUserByCredentials(credentials) {
-    throw new Error('Not implemented yet!');
+    const {username} = credentials;
+    return await this.where({username}).first();
   }
 
   /**
