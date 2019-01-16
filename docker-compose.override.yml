@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  app:
+    command: npm run serve:dev
+    volumes:
+      - .:/app
+    ports:
+      - "${DOCKER_PORT}:${PORT}"
+      - "9231:9229"
