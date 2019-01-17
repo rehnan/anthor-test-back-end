@@ -34,6 +34,10 @@ class Movie extends Model {
     ];
   }
 
+  static get objectIdFields() {
+    return ['_id'];
+  }
+
   /**
    * Create new movie
    * @param data - data request params
