@@ -1,6 +1,6 @@
 'use strict'
 
-const { before, after, test } = use('Test/Suite')('Unit Tests > Movie');
+const { after, test } = use('Test/Suite')('Unit Tests > Movie');
 const Movie = use('App/Models/Movie');
 const Factory = use('Factory');
 
@@ -17,8 +17,8 @@ test('should return the list of all movies', async ({ assert }) => {
   await Factory.model('App/Models/Movie')
     .createMany(4);
   const movies = await Movie.getAllMovies();
-  assert.isTrue(movies.size() > 0);
-  for (const movie of movies) {
+  assert.isTrue(movies.size() > 2);
+  for (const movie of movies.rows) {
     assert.isTrue(movie instanceof Movie);
   }
 });
@@ -51,15 +51,12 @@ test('should update movie by id if it found', async ({ assert }) => {
 });
 
 test('should not update movie by id if it not found', async ({ assert }) => {
-  const fakeData = await Factory.model('App/Models/Movie')
-    .make();
-  await fakeData.save();
   const newData = {
     title: 'Title Updated',
     language: 'Português',
     type: 'musical',
   };
-  const movie = await Movie.updateMovieById(fakeData._id, newData);
+  const movie = await Movie.updateMovieById(null, newData);
   assert.isNull(movie);
 });
 
@@ -67,17 +64,19 @@ test('should delete movie by id if it found', async ({ assert }) => {
   const fakeData = await Factory.model('App/Models/Movie')
     .make();
   await fakeData.save();
-  await Movie.deleteMovieById(fakeData._id);
+  const movieWasRemoved = await Movie.deleteMovieById(fakeData._id);
+  assert.isTrue(movieWasRemoved);
   const movie = await Movie.findMovieBy({_id: fakeData._id});
   assert.isNull(movie);
 });
 
 test('should not delete movie by id if it not found', async ({ assert }) => {
-  const fakeData = await Factory.model('App/Models/Movie')
-    .make();
-  await fakeData.save();
-  await Movie.deleteMovieById(fakeData._id);
-  const movie = await Movie.findMovieBy({_id: fakeData._id});
-  assert.isTrue(movie instanceof Movie);
+  const movieWasRemoved = await Movie.deleteMovieById(null);
+  assert.isFalse(movieWasRemoved);
 });
+
+after(async () => {
+  await Movie.query().delete();
+});
+
 
