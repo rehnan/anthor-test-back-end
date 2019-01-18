@@ -55,3 +55,10 @@ Factory.blueprint('App/Models/Movie', faker => {
      website: faker.url(),
    }
 });
+
+Factory.blueprint('App/Models/User', faker => {
+  return {
+    email: faker.email({domain: 'anthor.com.br'}),
+    password: 'password',
+  }
+});
