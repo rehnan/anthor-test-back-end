@@ -14,11 +14,24 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use('Route');
 
 Route.get('/', () => {
   return { greeting: 'Anthor Api (:' }
 });
+
+Route.group(() => {
+  Route.get('/', 'Api/v1/MovieController.getMovies');
+  Route.get('/:id', 'Api/v1/MovieController.getMovieById');
+}).prefix('v1/movies');
+
+Route.group(() => {
+  Route.post('/', 'Api/v1/MovieController.createMovie');
+  Route.patch('/:id', 'Api/v1/MovieController.updateMovieById');
+  Route.delete('/:id', 'Api/v1/MovieController.deleteMovieById');
+})
+  .middleware('auth')
+  .prefix('v1/movies');
 
 Route.group(() => {
   Route.post('/', 'Api/v1/UserController.getUserBy');
