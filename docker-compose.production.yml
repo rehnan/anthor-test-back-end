@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  mongo:
+    restart: always
+  app:
+    command: npm run start
+    restart: always
