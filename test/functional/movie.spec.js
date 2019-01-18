@@ -66,6 +66,30 @@ test('should delete movie by id', async ({ client, assert }) => {
   assert.isTrue(wasRemoved);
 });
 
+test('should not to authorize POST requests without authentication', async ({ client, assert }) => {
+  const response = await client.post(`${apiVersion}/movies`)
+    .end();
+  response.assertStatus(401);
+  response.assertText('InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided')
+});
+
+test('should not to authorize PUT requests without authentication', async ({ client, assert }) => {
+  const response = await client.delete(`${apiVersion}/movies/${fakeMovie._id}`)
+    .type('json')
+    .field('title', 'new title')
+    .field('year', 'new year')
+    .end();
+  response.assertStatus(401);
+  response.assertText('InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided')
+});
+
+test('should not to authorize DELETE requests without authentication', async ({ client, assert }) => {
+  const response = await client.delete(`${apiVersion}/movies/${fakeMovie._id}`)
+    .end();
+  response.assertStatus(401);
+  response.assertText('InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided')
+});
+
 after(async () => {
   // Delete user
 });
