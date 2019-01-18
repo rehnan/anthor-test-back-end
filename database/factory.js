@@ -29,7 +29,7 @@ Factory.blueprint('App/Models/Movie', faker => {
      language: 'English',
      country: faker.country({ full: true }),
      awards: faker.sentence(),
-     poster: faker.url({extensions: ['jpg']}),
+     poster: 'https://m.media-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_SX300.jpg',
      ratings: [
        {
          Source: "Internet Movie Database",
