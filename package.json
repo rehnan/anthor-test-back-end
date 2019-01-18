@@ -1,6 +1,6 @@
 {
   "name": "anthor-api-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "adonis-version": "4.1.0",
   "description": "Anthor Api App using Adonisjs boilerplate for API server with pre-configured JWT",
   "main": "index.js",
