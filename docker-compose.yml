@@ -4,9 +4,9 @@ services:
   mongo:
     image: mongo:3.6.8
     env_file:
-       - .env
+      - .env
     volumes:
-      - "$PWD/entrypoints/mongo/:/docker-entrypoint-initdb.d/"
+      - "./entrypoints/mongo/:/docker-entrypoint-initdb.d/"
       - anthor-data:/data/db
   app:
     ports:
