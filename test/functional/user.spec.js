@@ -31,7 +31,7 @@ test('should validate authentication to invalid username account', async ({ clie
     .field('password', 'password')
     .end();
   response.assertStatus(401);
-  response.assertText('{"message":"Invalid credentails!"}')
+  response.assertText('{"message":"Invalid credentials!"}')
 });
 
 test('should validate authentication to invalid password account', async ({ client, assert }) => {
@@ -40,7 +40,7 @@ test('should validate authentication to invalid password account', async ({ clie
     .field('password', 'invalid-password')
     .end();
   response.assertStatus(401);
-  response.assertText('{"message":"Invalid credentails!"}')
+  response.assertText('{"message":"Invalid credentials!"}')
 });
 
 test('sign out user account', async ({ client }) => {

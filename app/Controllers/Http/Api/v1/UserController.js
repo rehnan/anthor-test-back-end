@@ -16,7 +16,7 @@ class UserController {
     } catch (error) {
       // console.error(error.message);
     }
-    return response.unauthorized({message: 'Invalid credentails!'});
+    return response.unauthorized({message: 'Invalid credentials!'});
   }
 
   async signOut ({ request, response, auth }) {
@@ -32,7 +32,7 @@ class UserController {
     } catch (error) {
       // console.error(error.message);
     }
-    return response.unauthorized({message: 'Invalid credentails!'});
+    return response.unauthorized({message: 'Invalid credentials!'});
   }
 
   async isLoggedIn ({ request, response, auth }) {
@@ -41,7 +41,7 @@ class UserController {
       return response.json({isLoggedIn});
     } catch (error) {
       // console.error(error.message);
-      return response.unauthorized({message: 'Invalid credentails!'});
+      return response.unauthorized({message: 'Invalid credentials!'});
     }
   }
 
@@ -54,7 +54,7 @@ class UserController {
       }
     } catch (error) {
       // console.error(error.message);
-      return response.unauthorized({message: 'Invalid credentails!'});
+      return response.unauthorized({message: 'Invalid credentials!'});
     }
   }
 }
