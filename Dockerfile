@@ -5,7 +5,9 @@ WORKDIR /app
 
 ADD package.json /app/
 
-RUN npm i --global @adonisjs/cli@4.0.10
+RUN npm config set unsafe-perm true
+
+RUN npm install --global @adonisjs/cli@4.0.10
 
 RUN cd /app && \
     npm i
